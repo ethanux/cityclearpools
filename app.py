@@ -1,11 +1,16 @@
-from flask import Flask, render_template, request, redirect
-from models import db, Item
-
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
+from models import db, Project
+import os
 app = Flask(__name__)
-
+app.secret_key = "super secret key"
 # Configure SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+UPLOAD_FOLDER = "static/uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 db.init_app(app)
 
@@ -15,7 +20,8 @@ db.init_app(app)
 # Home route - show all items
 @app.route('/')
 def home():
-	return render_template('index.html')
+	projects = Project.query.all()  # get all projects from DB
+	return render_template('index.html',projects=projects)
 
 @app.route('/about')
 def about():
@@ -27,7 +33,8 @@ def services():
 
 @app.route('/projects')
 def projects():
-	return render_template('blog.html')
+	projects = Project.query.all()  # get all projects from DB
+	return render_template('blog.html',projects=projects)
 
 @app.route('/features')
 def features():
@@ -46,7 +53,38 @@ def FAQ():
 	return render_template('FAQ.html')
 
 
-# Add item route
+@app.route("/dashboard")
+def dash():
+	projects = Project.query.all()  # get all projects from DB
+	return render_template("dash/earnings.html",projects=projects)
+
+
+@app.route("/add/projects",methods=["GET", "POST"])
+def upload_project():
+	if request.method == "POST":
+        # Get form data
+		image = request.files["image"]
+		work_type = request.form["type"]
+		comment = request.form["comment"]
+
+		if image:
+			filename = secure_filename(image.filename)
+			image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+			
+			new_project = Project(
+				image=filename,   # store filename only, not full path
+				ptype=work_type,
+				comment=comment
+			)
+			db.session.add(new_project)
+			db.session.commit()
+
+			flash(f"Project uploaded successfully! Work Type: {work_type}, Comment: {comment}", "success")
+			return redirect(url_for("dash"))
+
+
+	return redirect(url_for('dash'))
+
 
 
 if __name__ == "__main__":
