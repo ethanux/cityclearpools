@@ -85,7 +85,13 @@ def upload_project():
 
 	return redirect(url_for('dash'))
 
-
+@app.route("/delete/<int:project_id>")
+def delete_project(project_id):
+	project = Project.query.get(project_id)
+	if project:
+		db.session.delete(project)
+		db.session.commit()
+	return redirect(url_for("dash"))
 
 if __name__ == "__main__":
 	with app.app_context():

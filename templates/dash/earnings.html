@@ -54,9 +54,9 @@
 {% block content %}
  <div class="message-container" id="message-container"></div>
 <div class="container py-4">
-  <h2 class="mb-4">Earnings Summary</h2>
+  <h2 class="mb-4">DashBoard</h2>
   <div class="row g-3">
-    <div class="col-6 col-md-4">
+    <!-- <div class="col-6 col-md-4">
       <div class="card text-center p-3">
         <h6>Total Ratings</h6>
         <h4>0</h4>
@@ -73,7 +73,7 @@
         <h6>total projects</h6>
         <h4>0</h4>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="col-6 col-md-3">
       <div class="card text-center p-3">
         <h6>Last Withdrawal</h6>
@@ -123,7 +123,7 @@
 
 
   <!-- Filters -->
-  <div class="filter-section">
+<!--   <div class="filter-section">
     <form class="row g-3 align-items-end">
       <div class="col-6 col-md-4">
         <label for="fromDate" class="form-label">From</label>
@@ -137,7 +137,7 @@
         <button type="submit" class="btn btn-outline-light w-100">Filter</button>
       </div>
     </form>
-  </div>
+  </div> -->
 
   <!-- Withdrawal Transactions Table -->
   <div class="table-responsive">
@@ -156,7 +156,7 @@
           <td><img src="{{ url_for('static', filename='uploads/' ~ project.image) }}" width="50" height="60" /></td>
           <td>{{project.ptype}}</td>
           <td>{{project.comment}}</td>
-          <td><button class="btn btn-danger">Delete</button></td>
+          <td><a href="{{ url_for('delete_project',project_id=project.id)}} " onclick="return confirm('Delete this project?')"  class="btn btn-danger">Delete</a></td>
         </tr>
         {% endfor %}
         
