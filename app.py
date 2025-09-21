@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from models import db, Project
 import os
+from flask_sitemap import Sitemap
 app = Flask(__name__)
 app.secret_key = "super secret key"
 # Configure SQLite database
@@ -11,7 +12,7 @@ UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
+ext = Sitemap(app)
 db.init_app(app)
 
 # Create database tables
@@ -46,7 +47,7 @@ def team():
 
 @app.route('/testimonial')
 def testimonial():
-	return render_template('testimonial.html')
+	return render_template('team.html')
 
 @app.route('/FAQ')
 def FAQ():
@@ -92,6 +93,15 @@ def delete_project(project_id):
 		db.session.delete(project)
 		db.session.commit()
 	return redirect(url_for("dash"))
+
+
+# Registering the routes manually using the generator
+@ext.register_generator
+def index():
+    yield 'home', {}
+    yield 'about', {}
+    yield 'services', {}
+    yield 'projects', {}
 
 if __name__ == "__main__":
 	with app.app_context():
