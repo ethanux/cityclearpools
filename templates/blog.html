@@ -172,103 +172,24 @@
                 </div>
 
                 <div class="row g-4 justify-content-center">
+                   
+                     {% for project in projects %}
                     <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-1.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
+                                <img src="{{ url_for('static', filename='uploads/' ~ project.image) }}" class="img-fluid rounded-top w-100" alt="">
+
                                 <div class="blog-categiry py-2 px-4">
-                                    <span>Repair</span>
+                                    <span>{{project.ptype}}</span>
                                 </div>
                             </div>
                             <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
+                                <p class="mb-3">{{project.comment}}.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-4.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
-                                <div class="blog-categiry py-2 px-4">
-                                    <span>Revamp/Construction</span>
-                                </div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-6.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
-                                <div class="blog-categiry py-2 px-4">
-                                    <span>Repair</span>
-                                </div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                               
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-11.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
-                                <div class="blog-categiry py-2 px-4">
-                                    <span>Revamp/Construction</span>
-                                </div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                               
-                            </div>
-                        </div>
-                    </div>
-                      <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-8.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
-                                <div class="blog-categiry py-2 px-4">
-                                    <span>Repair</span>
-                                </div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                               
-                            </div>
-                        </div>
-                    </div>
-                      <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-9.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
-                                <div class="blog-categiry py-2 px-4">
-                                    <span>Repair</span>
-                                </div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                               
-                            </div>
-                        </div>
-                    </div>
-                      <div class="col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <img src="{{ url_for('static', filename='img/project-10.jpeg')}}" class="img-fluid rounded-top w-100" alt="">
-                                <div class="blog-categiry py-2 px-4">
-                                    <span>Repair</span>
-                                </div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                               
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}  
+    
                 </div>
             </div>
         </div>

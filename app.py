@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 app.secret_key = "super secret key"
 # Configure SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://victor:aTGv9sS4d7hBhJ56SGDcsCxqfoBSHHjQ@dpg-d37tbqruibrs739b5of0-a.oregon-postgres.render.com/cityclearpools'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
