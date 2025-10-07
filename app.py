@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session , request
 from werkzeug.utils import secure_filename
 from models import db, Project
 import os
@@ -16,7 +16,7 @@ ext = Sitemap(app)
 db.init_app(app)
 
 # Create database tables
-
+secret_password = "maincitypools@25"
 
 # Home route - show all items
 @app.route('/')
@@ -54,37 +54,51 @@ def FAQ():
 	return render_template('FAQ.html')
 
 
+@app.route("/login", methods=['POST','GET'])
+def login():
+	if request.method == 'POST':
+		password = request.form['password']
+		print(password)
+		print(secret_password)
+		if password == secret_password :
+			session['user'] ='user'
+			return redirect(url_for('dash'))
+	return render_template('dash/login.html')
+
+
 @app.route("/dashboard")
 def dash():
-	projects = Project.query.all()  # get all projects from DB
-	return render_template("dash/earnings.html",projects=projects)
-
+	if 'user' in session :
+		projects = Project.query.all()  # get all projects from DB
+		return render_template("dash/earnings.html",projects=projects)
+	return redirect(url_for('login'))
 
 @app.route("/add/projects",methods=["GET", "POST"])
 def upload_project():
-	if request.method == "POST":
+	if 'user' in session:
+		if request.method == "POST":
         # Get form data
-		image = request.files["image"]
-		work_type = request.form["type"]
-		comment = request.form["comment"]
+			image = request.files["image"]
+			work_type = request.form["type"]
+			comment = request.form["comment"]
 
-		if image:
-			filename = secure_filename(image.filename)
-			image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+			if image:
+				filename = secure_filename(image.filename)
+				image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 			
-			new_project = Project(
-				image=filename,   # store filename only, not full path
-				ptype=work_type,
-				comment=comment
-			)
-			db.session.add(new_project)
-			db.session.commit()
+				new_project = Project(
+					image=filename,   # store filename only, not full path
+					ptype=work_type,
+					comment=comment
+				)
+				db.session.add(new_project)
+				db.session.commit()
 
-			flash(f"Project uploaded successfully! Work Type: {work_type}, Comment: {comment}", "success")
-			return redirect(url_for("dash"))
+				flash(f"Project uploaded successfully! Work Type: {work_type}, Comment: {comment}", "success")
+				return redirect(url_for("dash"))
 
 
-	return redirect(url_for('dash'))
+	return redirect(url_for('login'))
 
 @app.route("/delete/<int:project_id>")
 def delete_project(project_id):
